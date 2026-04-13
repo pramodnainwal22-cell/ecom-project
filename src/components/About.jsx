@@ -1,0 +1,109 @@
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { getSetting } from '../../Redux/ActionCreators/SettingActionCreators'
+
+
+export default function About() {
+    let [settingData, setSettingData] = useState({
+        siteName: import.meta.env.VITE_APP_SITE_NAME,
+        facebook: import.meta.env.VITE_APP_FACEBOOK,
+        twitter: import.meta.env.VITE_APP_TWITTER,
+        linkedin: import.meta.env.VITE_APP_LINKEDIN,
+        instagram: import.meta.env.VITE_APP_INSTAGRAM,
+        youtube: import.meta.env.VITE_APP_YOUTUBE,
+    })
+
+    let SettingStateData = useSelector(state => state.SettingStateData)
+    let dispatch = useDispatch()
+
+    useEffect(() => {
+        (() => {
+            dispatch(getSetting())
+            if (SettingStateData.length) {
+                let item = SettingStateData[0]
+                setSettingData({
+                    siteName: item.siteName ? item.siteName : settingData.siteName,
+                    twitter: item.twitter ? item.twitter : settingData.twitter,
+                    facebook: item.facebook ? item.facebook : settingData.facebook,
+                    linkedin: item.linkedin ? item.linkedin : settingData.linkedin,
+                    instagram: item.instagram ? item.instagram : settingData.instagram,
+                    youtube: item.youtube ? item.youtube : settingData.youtube,
+                })
+            }
+        })()
+    }, [SettingStateData.length])
+
+    return (
+        <>
+
+            <div className="container-fluid py-5">
+                <div className="container">
+                    <div className="row gx-5">
+                        <div className="col-lg-5 mb-5 mb-lg-0" style={{ minHeight: "500px;" }}>
+                            <div className="position-relative h-100">
+                                <img className="position-absolute w-100 h-100 rounded" src="/images/banner10.jpg"
+                                    style={{ objectFit: "cover;" }} />
+                            </div>
+                        </div>
+                        <div className="col-lg-7">
+                            <div className="mb-4">
+                                <h5 className="d-inline-block text-primary text-uppercase border-bottom border-5">About Us</h5>
+                                <h1>Your Trusted Online Shopping Destination for Quality, Convenience, and Customer Satisfaction</h1>
+                            </div>
+                            <p>${settingData.siteName} is a modern e-commerce platform dedicated to providing customers with a seamless, reliable, and enjoyable online shopping experience. We offer a wide range of high-quality products at competitive prices, ensuring value for every purchase. Our focus is on customer satisfaction, secure transactions, and fast delivery. With a user-friendly interface and responsive support team, ApniShop strives to make online shopping simple, trustworthy, and accessible for everyone.</p>
+                            <div className="row g-3 pt-3">
+                                <div className="col-sm-3 col-6">
+                                    <div className="bg-light text-center rounded-circle py-4">
+                                        <i className="bi bi-patch-check fs-1 text-primary mb-3"></i>
+                                        <h6 className="mb-0">100%<small className="d-block text-primary">Genuine Products</small></h6>
+                                    </div>
+                                </div>
+                                <div className="col-sm-3 col-6">
+                                    <div className="bg-light text-center rounded-circle py-4">
+                                        <i className="bi bi-headset fs-1 text-primary mb-3"></i>
+                                        <h6 className="mb-0">24/7<small className="d-block text-primary">Customer Support</small></h6>
+                                    </div>
+                                </div>
+                                <div className="col-sm-3 col-6">
+                                    <div className="bg-light text-center rounded-circle py-4">
+                                        <i className="bi bi-people fs-1 text-primary mb-3"></i>
+                                        <h6 className="mb-0">10000+<small className="d-block text-primary">Happy Customers</small></h6>
+                                    </div>
+                                </div>
+                                <div className="col-sm-3 col-6">
+                                    <div className="bg-light text-center rounded-circle py-4">
+                                        <i className="bi bi-arrow-repeat fs-1 text-primary mb-3"></i>
+                                        <h6 className="mb-0">7 Days<small className="d-block text-primary">Refund Polocy</small></h6>
+                                    </div>
+                                </div>
+                                <div className="card p-5 d-flex jsutify-content-center align-items-center">
+                                    <div className="d-inline-flex align-items-center">
+                                    <Link to={settingData.facebook} target="_blank" className="text-primary px-2">
+                                        <i className="fab fa-facebook-f fs-4 mx-2"></i>
+                                    </Link>
+                                    <Link to={settingData.twitter} target="_blank" className="text-primary px-2">
+                                        <i className="fab fa-twitter fs-4 mx-2"></i>
+                                    </Link>
+                                    <Link to={settingData.linkedin} target="_blank" className="text-primary px-2">
+                                        <i className="fab fa-linkedin-in fs-4 mx-2"></i>
+                                    </Link>
+                                    <Link to={settingData.instagram} target="_blank" className="text-primary px-2">
+                                        <i className="fab fa-instagram fs-4 mx-2"></i>
+                                    </Link>
+                                    <Link to={settingData.youtube} target="_blank" className="text-primary px-2">
+                                        <i className="fab fa-youtube fs-4 mx-2"></i>
+                                    </Link>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </>
+
+    )
+}
